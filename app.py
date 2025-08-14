@@ -33,7 +33,20 @@ def show_notes():
 
 
 def search_note():
-    pass
+    query = input('Search: ').strip()
+    search_results = []
+    if query:
+        for note in notes_list:
+            if query.lower() in note['title'].lower() or query.lower() in note['content'].lower():
+                search_results.append(note)
+        if search_results:
+            print('\nNote(s) found:')
+            for index, result in enumerate(search_results, start=1):
+                print(f"{index}.{result['title']} → {result['content']}")
+        else:
+            print('Note not found.')
+    else:
+        print('Search can\'t be empty.')
 
 
 def add_note():
