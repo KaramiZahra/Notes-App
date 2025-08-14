@@ -25,8 +25,11 @@ load_notes()
 
 
 def show_notes():
-    for index, note in enumerate(notes_list, start=1):
-        print(f"{index}.{note['title']} → {note['content']}")
+    if notes_list:
+        for index, note in enumerate(notes_list, start=1):
+            print(f"{index}.{note['title']} → {note['content']}")
+    else:
+        print('You have no notes.')
 
 
 def search_note():
@@ -46,7 +49,18 @@ def add_note():
 
 
 def delete_note():
-    pass
+    show_notes()
+    try:
+        rm_note = int(input('Enter note number to delete: '))
+    except ValueError:
+        print('Note doesn\'t exist')
+        return
+
+    if 1 <= rm_note <= len(notes_list):
+        del notes_list[rm_note - 1]
+        print('Note successfully deleted.')
+    else:
+        print('Note doesn\'t exist')
 
 
 def save_notes():
