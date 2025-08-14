@@ -76,6 +76,27 @@ def delete_note():
         print('Note doesn\'t exist')
 
 
+def edit_note():
+    show_notes()
+    try:
+        edit_note = int(input('Enter note number to edit: '))
+    except ValueError:
+        print('Note doesn\'t exist')
+        return
+    if 1 <= edit_note <= len(notes_list):
+        selected_note = notes_list[edit_note - 1]
+        new_title = input('Enter your new title: ').strip()
+        new_content = input('Enter your new content: ').strip()
+        if new_title and new_content:
+            selected_note['title'] = new_title
+            selected_note['content'] = new_content
+            print('Note successfully edited.')
+        else:
+            print('Note can\'t be empty.')
+    else:
+        print('Note doesn\'t exist')
+
+
 def save_notes():
     with open(FILE_NOTE, 'w') as nf:
         json.dump(notes_list, nf, indent=4)
@@ -87,10 +108,11 @@ def menu():
     while flag:
         print('\n---Notes Menu---\n')
         print('1.Show all notes')
-        print('2.Search for a note')
+        print('2.Search a note')
         print('3.Add a note')
         print('4.Delete a note')
-        print('5.Save and exit')
+        print('5.Edit a note')
+        print('6.Save and exit')
 
         user_input = input('Choose an option(1-5): ')
 
@@ -103,6 +125,8 @@ def menu():
         elif user_input == '4':
             delete_note()
         elif user_input == '5':
+            edit_note()
+        elif user_input == '6':
             save_notes()
             flag = False
         else:
