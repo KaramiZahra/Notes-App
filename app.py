@@ -116,6 +116,13 @@ def reorder_notes():
         print('Enter a valid number.')
 
 
+def sort_notes():
+    sorted_notes = sorted(notes_list, key=lambda note: note['created_at'])
+    for index, note in enumerate(sorted_notes, start=1):
+        print(
+            f"\n{index}.{note['title']} → {note['content']} \nCreated at: {note['created_at'][:16].replace('T', ' ')}")
+
+
 def save_notes():
     with open(FILE_NOTE, 'w') as nf:
         json.dump(notes_list, nf, indent=4)
@@ -132,7 +139,8 @@ def menu():
         print('4.Delete a note')
         print('5.Edit a note')
         print('6.reorder notes')
-        print('7.Save and exit')
+        print('7.sort notes')
+        print('8.Save and exit')
 
         user_input = input('Choose an option(1-5): ')
 
@@ -149,6 +157,8 @@ def menu():
         elif user_input == '6':
             reorder_notes()
         elif user_input == '7':
+            sort_notes()
+        elif user_input == '8':
             save_notes()
             flag = False
         else:
