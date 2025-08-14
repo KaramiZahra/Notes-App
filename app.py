@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import uuid
 
 FILE_NOTE = Path('notes.json')
 
@@ -24,7 +25,8 @@ load_notes()
 
 
 def show_notes():
-    pass
+    for index, note in enumerate(notes_list, start=1):
+        print(f"{index}.{note['title']} → {note['content']}")
 
 
 def search_note():
@@ -35,8 +37,8 @@ def add_note():
     new_note_title = input('Enter the title of your note: ').strip()
     new_note_content = input('Enter the content of your note: ').strip()
     if new_note_title and new_note_content:
-        new_note = {'id': len(notes_list)+1,
-                'title': new_note_title, 'content': new_note_content}
+        new_note = {
+            'id': str(uuid.uuid4()), 'title': new_note_title, 'content': new_note_content}
         notes_list.append(new_note)
         print('Note successfully added.')
     else:
