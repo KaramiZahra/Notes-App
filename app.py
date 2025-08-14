@@ -2,11 +2,24 @@ import json
 import os
 from pathlib import Path
 
-FILE_NOTE = 'notes.json'
+FILE_NOTE = Path('notes.json')
+
+notes_list = []
 
 
 def load_notes():
-    pass
+    if os.path.exists(FILE_NOTE):
+        try:
+            with open(FILE_NOTE, 'r') as nf:
+                notes_list.extend(json.load(nf))
+        except json.JSONDecodeError:
+            notes_list.clear()
+    else:
+        FILE_NOTE.touch()
+        notes_list.clear()
+    return notes_list
+
+load_notes()
 
 
 def show_notes():
