@@ -2,6 +2,7 @@ import json
 import os
 from pathlib import Path
 import uuid
+from datetime import datetime
 
 FILE_NOTE = Path('notes.json')
 
@@ -27,7 +28,8 @@ load_notes()
 def show_notes():
     if notes_list:
         for index, note in enumerate(notes_list, start=1):
-            print(f"{index}.{note['title']} → {note['content']}")
+            print(
+                f"\n{index}.{note['title']} → {note['content']} \nCreated at: {note['created_at'][:16].replace('T', ' ')}")
     else:
         print('You have no notes.')
 
@@ -54,7 +56,7 @@ def add_note():
     new_note_content = input('Enter the content of your note: ').strip()
     if new_note_title and new_note_content:
         new_note = {
-            'id': str(uuid.uuid4()), 'title': new_note_title, 'content': new_note_content}
+            'id': str(uuid.uuid4()), 'title': new_note_title, 'content': new_note_content, 'created_at': datetime.now().isoformat()}
         notes_list.append(new_note)
         print('Note successfully added.')
     else:
@@ -97,6 +99,23 @@ def edit_note():
         print('Note doesn\'t exist')
 
 
+def reorder_notes():
+    show_notes()
+    try:
+        prev_pos = int(input('Enter note number to move: '))
+        new_pos = int(
+            input(f"Enter the new position(1-{len(notes_list)}): "))
+    except ValueError:
+        print('Note doesn\'t exist')
+        return
+    if prev_pos in range(1, len(notes_list)+1) and new_pos in range(1, len(notes_list)+1):
+        note_to_move = notes_list.pop(prev_pos - 1)
+        notes_list.insert(new_pos - 1, note_to_move)
+        print('Note successfully reordered.')
+    else:
+        print('Enter a valid number.')
+
+
 def save_notes():
     with open(FILE_NOTE, 'w') as nf:
         json.dump(notes_list, nf, indent=4)
@@ -112,7 +131,8 @@ def menu():
         print('3.Add a note')
         print('4.Delete a note')
         print('5.Edit a note')
-        print('6.Save and exit')
+        print('6.reorder notes')
+        print('7.Save and exit')
 
         user_input = input('Choose an option(1-5): ')
 
@@ -127,6 +147,8 @@ def menu():
         elif user_input == '5':
             edit_note()
         elif user_input == '6':
+            reorder_notes()
+        elif user_input == '7':
             save_notes()
             flag = False
         else:
