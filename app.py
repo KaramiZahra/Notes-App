@@ -48,7 +48,8 @@ def delete_note():
 
 
 def save_notes():
-    pass
+    with open(FILE_NOTE, 'w') as nf:
+        json.dump(notes_list, nf, indent=4)
 
 
 def menu():
