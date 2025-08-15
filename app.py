@@ -56,11 +56,11 @@ def add_note():
     new_note_content = input('Enter the content of your note: ').strip()
     if new_note_title and new_note_content and all(note['title'] != new_note_title for note in notes_list):
         new_note = {
-            'id': str(uuid.uuid4()), 
-            'title': new_note_title, 
-            'content': new_note_content, 
+            'id': str(uuid.uuid4()),
+            'title': new_note_title,
+            'content': new_note_content,
             'created_at': datetime.now().isoformat()
-            }
+        }
         notes_list.append(new_note)
         print('Note successfully added.')
     else:
@@ -121,10 +121,19 @@ def reorder_notes():
 
 
 def sort_notes():
-    sorted_notes = sorted(notes_list, key=lambda note: note['created_at'])
-    for index, note in enumerate(sorted_notes, start=1):
-        print(
-            f"\n{index}.{note['title']} → {note['content']} \nCreated at: {note['created_at'][:16].replace('T', ' ')}")
+    sort_type = input('Enter 1 to sort by date and 2 to sort by title: ')
+    if sort_type == '1':
+        sorted_dates = sorted(notes_list, key=lambda note: note['created_at'])
+        for index, note in enumerate(sorted_dates, start=1):
+            print(
+                f"\n{index}.{note['title']} → {note['content']} \nCreated at: {note['created_at'][:16].replace('T', ' ')}")
+    elif sort_type == '2':
+        sorted_title = sorted(notes_list, key=lambda note: note['title'])
+        for index, note in enumerate(sorted_title, start=1):
+            print(
+                f"\n{index}.{note['title']} → {note['content']} \nCreated at: {note['created_at'][:16].replace('T', ' ')}")
+    else:
+        print('Enter a valid number.')
 
 
 def save_notes():
@@ -142,8 +151,8 @@ def menu():
         print('3.Add a note')
         print('4.Delete a note')
         print('5.Edit a note')
-        print('6.reorder notes')
-        print('7.sort notes')
+        print('6.Reorder notes')
+        print('7.Sort notes')
         print('8.Save and exit')
 
         user_input = input('Choose an option(1-8): ')
