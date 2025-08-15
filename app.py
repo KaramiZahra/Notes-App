@@ -54,13 +54,17 @@ def search_note():
 def add_note():
     new_note_title = input('Enter the title of your note: ').strip()
     new_note_content = input('Enter the content of your note: ').strip()
-    if new_note_title and new_note_content:
+    if new_note_title and new_note_content and all(note['title'] != new_note_title for note in notes_list):
         new_note = {
-            'id': str(uuid.uuid4()), 'title': new_note_title, 'content': new_note_content, 'created_at': datetime.now().isoformat()}
+            'id': str(uuid.uuid4()), 
+            'title': new_note_title, 
+            'content': new_note_content, 
+            'created_at': datetime.now().isoformat()
+            }
         notes_list.append(new_note)
         print('Note successfully added.')
     else:
-        print('Note can\'t be empty.')
+        print('Note can\'t be empty or repetitious.')
 
 
 def delete_note():
