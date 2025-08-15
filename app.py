@@ -142,7 +142,7 @@ def menu():
         print('7.sort notes')
         print('8.Save and exit')
 
-        user_input = input('Choose an option(1-5): ')
+        user_input = input('Choose an option(1-8): ')
 
         if user_input == '1':
             show_notes()
