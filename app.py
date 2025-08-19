@@ -1,5 +1,4 @@
 import json
-import os
 from pathlib import Path
 import uuid
 from datetime import datetime
@@ -10,7 +9,7 @@ notes_list = []
 
 
 def load_notes():
-    if os.path.exists(FILE_NOTE):
+    if FILE_NOTE.exists():
         try:
             with open(FILE_NOTE, 'r') as nf:
                 notes_list.extend(json.load(nf))
